@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Survos\SeoBundle\Twig\Extension;
 
+use Survos\SeoBundle\Service\SeoService;
 use Symfony\Component\String\AbstractString;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+use Twig\TwigFunction;
 use function Symfony\Component\String\u;
 
 /**
@@ -16,24 +18,27 @@ use function Symfony\Component\String\u;
 final class SeoExtension extends AbstractExtension
 {
 
-    public const MIN_TITLE_LENGTH = 30;
-    public const MAX_TITLE_LENGTH = 65;
-
-    public const MIN_DESCRIPTION_LENGTH = 120;
-    public const MAX_DESCRIPTION_LENGTH = 155;
-
-    private const BRANDING = ' | Strangebuzz';
-
-    public function __construct(private int $minTitleLength=30)
+    public function __construct(
+        private SeoService $seoService,
+    )
     {
+
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('seo_title', [$this, 'processTitle']),
-            new TwigFilter('seo_description', [$this, 'processDescription']),
+            new TwigFilter('seo_title', fn(string $value) => $this->process('Title', $value)),
+            new TwigFilter('seo_description', fn(string $value) => $this->process('Description', $value)),
         ];
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('seo_config', fn($key) => $this->seoService->getConfigValue($key) ?? "??$key"),
+        ];
+
     }
 
     private function prepareStr(string $str): AbstractString
@@ -41,49 +46,33 @@ final class SeoExtension extends AbstractExtension
         return u(strip_tags($str))->trim();
     }
 
-    public function processTitle(string $title): string
+    private function process(string $metaElement, string $value): string
     {
-        $str = $this->prepareStr($title);
-        $brandingStr = u(self::BRANDING);
+        $str = $this->prepareStr($value);
+        $brandingStr = u($this->seoService->getConfigValue('branding'));
         $length = $str->length();
+        [$min, $max] = $this->seoService->getMinMax($metaElement);
 
         // Nominal case
-        if ($length >= self::MIN_TITLE_LENGTH && $length <= self::MAX_TITLE_LENGTH) {
+        if ($length >= $min && $length <= $max) {
             // Is there enough place for the branding?
-            if (($length + $brandingStr->length()) <= self::MAX_TITLE_LENGTH) {
-                $str = $str->ensureEnd($brandingStr->toString());
-            }
-
+//            if (($length + $brandingStr->length()) <= self::MAX_TITLE_LENGTH) {
+//                $str = $str->ensureEnd($brandingStr->toString());
+//            }
             return $str->toString();
         }
 
         // Title too short, we add the branding
-        if ($length < $this->minTitleLength) {
+        if ($length < $this->$min) {
             $str = $str->ensureEnd($brandingStr->toString());
         }
 
         // Title too long, we cup
-        if ($length > self::MAX_TITLE_LENGTH) {
-            $str = $str->truncate(self::MAX_TITLE_LENGTH);
+        if ($length > $max) {
+            $str = $str->truncate($max);
         }
 
         return $str->toString();
     }
 
-    public function processDescription(string $description): string
-    {
-        $str = $this->prepareStr($description);
-        $length = $str->length();
-
-        if ($length >= self::MIN_DESCRIPTION_LENGTH && $length <= self::MAX_DESCRIPTION_LENGTH) {
-            return $str->toString();
-        }
-
-        // Description too long, we cut
-        if ($length > self::MAX_DESCRIPTION_LENGTH) {
-            $str = $str->truncate(self::MAX_DESCRIPTION_LENGTH);
-        }
-
-        return $str->toString();
-    }
 }

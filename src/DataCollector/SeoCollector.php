@@ -6,9 +6,10 @@ declare(strict_types=1);
 //   from https://www.strangebuzz.com/en/blog/adding-a-custom-data-collector-in-the-symfony-debug-bar
 namespace Survos\SeoBundle\DataCollector;
 
-use App\Twig\Extension\SeoExtension;
+use Survos\SeoBundle\Service\SeoService;
+use Survos\SeoBundle\Twig\Extension\SeoExtension;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
@@ -16,10 +17,15 @@ use function Symfony\Component\String\u;
 
 final class SeoCollector extends DataCollector
 {
+
     private const MAX_PANEL_WIDTH = 50;
     private const CLASS_ERROR = 'red';
     private const CLASS_WARNING = 'yellow';
     private const CLASS_OK = 'green';
+
+    public function __construct(private SeoService $seoService)
+    {
+    }
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
@@ -58,7 +64,7 @@ final class SeoCollector extends DataCollector
             return self::CLASS_ERROR;
         }
 
-        return $size >= SeoExtension::MIN_TITLE_LENGTH && $size <= SeoExtension::MAX_TITLE_LENGTH ? self::CLASS_OK : self::CLASS_WARNING;
+        return $size >= $this->seoService->getConfigValue('minTitleLength') && $size <= $this->seoService->getConfigValue('maxTitleLength') ? self::CLASS_OK : self::CLASS_WARNING;
     }
 
     private function getDescriptionClass(int $size): string
@@ -67,7 +73,8 @@ final class SeoCollector extends DataCollector
             return self::CLASS_ERROR;
         }
 
-        return $size >= SeoExtension::MIN_DESCRITION_LENGTH && $size <= SeoExtension::MAX_DESCRITION_LENGTH ? self::CLASS_OK : self::CLASS_WARNING;
+        return $size >= $this->seoService->getConfigValue('minDescriptionLength') &&
+        $size <=  $this->seoService->getConfigValue('maxDescriptionLength') ? self::CLASS_OK : self::CLASS_WARNING;
     }
 
     /**
