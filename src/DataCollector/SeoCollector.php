@@ -63,8 +63,8 @@ final class SeoCollector extends DataCollector
         if ($size === 0) {
             return self::CLASS_ERROR;
         }
-
-        return $size >= $this->seoService->getConfigValue('minTitleLength') && $size <= $this->seoService->getConfigValue('maxTitleLength') ? self::CLASS_OK : self::CLASS_WARNING;
+        [$min, $max] = $this->seoService->getMinMax('Title');
+        return ( ($size >= $min) && ($size <= $max)) ? self::CLASS_OK : self::CLASS_WARNING;
     }
 
     private function getDescriptionClass(int $size): string
@@ -73,8 +73,9 @@ final class SeoCollector extends DataCollector
             return self::CLASS_ERROR;
         }
 
-        return $size >= $this->seoService->getConfigValue('minDescriptionLength') &&
-        $size <=  $this->seoService->getConfigValue('maxDescriptionLength') ? self::CLASS_OK : self::CLASS_WARNING;
+        [$min, $max] = $this->seoService->getMinMax('Description');
+        return ( ($size >= $min) && ($size <= $max)) ? self::CLASS_OK : self::CLASS_WARNING;
+
     }
 
     /**
