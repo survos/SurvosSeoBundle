@@ -13,7 +13,7 @@ final class SeoService
 
 
     /**
-     * @param array<string, mixed> $config
+     * @param array<string, int|string|null> $config
      */
     public function __construct(
         private array $config=[]
@@ -21,7 +21,7 @@ final class SeoService
     {
     }
 
-    public function getConfigValue(string $key): mixed
+    public function getConfigValue(string $key): int|string|null
     {
         return $this->config[$key]; // @todo: error checking
     }
@@ -32,7 +32,9 @@ final class SeoService
      */
     public function getMinMax(string $key): array
     {
-        return [$this->getConfigValue('min' . $key . 'Length'), $this->getConfigValue('max' . $key . 'Length')];
+        return [
+            (int)$this->getConfigValue('min' . $key . 'Length'),
+            (int)$this->getConfigValue('max' . $key . 'Length')];
     }
 
 }

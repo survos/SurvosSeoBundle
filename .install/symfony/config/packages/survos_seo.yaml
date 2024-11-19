@@ -1,0 +1,13 @@
+# Default configuration for extension with alias: "survos_seo"
+survos_seo:
+    branding:             ''
+
+    # minimum title length
+    minTitleLength:       30
+
+    # maximum title length
+    maxTitleLength:       150
+    minDescriptionLength: 10
+    maxDescriptionLength: 255
+    enabled:              true
+

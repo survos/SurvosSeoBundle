@@ -44,13 +44,18 @@ class SurvosSeoBundle extends AbstractBundle
     {
         $definition->rootNode()
             ->children()
-            ->scalarNode('branding')->defaultValue('')->end()
-            ->integerNode('minTitleLength')->defaultValue(30)->end()
-            ->integerNode('maxTitleLength')->defaultValue(150)->end()
+            ->scalarNode('branding')
+                ->info("branding will be added if the title is short enough.")
+                ->defaultValue('')->end()
+            ->integerNode('minTitleLength')
+                ->info("minimum title length")
+                ->defaultValue(30)->end()
+            ->integerNode('maxTitleLength')
+                ->info("maximum title length")
+                ->defaultValue(150)->end()
             ->integerNode('minDescriptionLength')->defaultValue(10)->end()
             ->integerNode('maxDescriptionLength')->defaultValue(255)->end()
             ->booleanNode('enabled')->defaultTrue()->end()
-//            ->integerNode('min_sunshine')->defaultValue(3)->end()
             ->end();
     }
 }

@@ -1,0 +1,7 @@
+<bg=green;fg=white>                </>
+<bg=green;fg=white> success        </>
+<bg=green;fg=white>                </>
+
+  * <fg=yellow>Next steps:</>
+    1. Configure /config/packages/survos_seo.yaml and set the min/max lengths
+    2. Navigate your site and watch the debug toolbar
