@@ -3,7 +3,8 @@
     "type": "symfony-bundle",
     "description": "checks for title and description length in the debug toolbar",
     "keywords": [
-        "symfony",
+        "seo",
+        "symfony"
     ],
     "license": "MIT",
     "require": {
