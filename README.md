@@ -2,7 +2,7 @@
 
 This bundle takes the information from https://www.strangebuzz.com/en/blog/adding-a-custom-data-collector-in-the-symfony-debug-bar and wraps it in an installable bundle.
 
-It alerts developers to pages where the length of the title or description outside of a defined range.
+It alerts developers to pages where the length of the title or description outside a defined range.
 
 ```bash
 composer req survos/seo-bundle --dev

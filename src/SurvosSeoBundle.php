@@ -15,19 +15,14 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class SurvosSeoBundle extends AbstractBundle
 {
+    /**
+     * @param array<string, mixed> $config
+     * @param ContainerConfigurator $container
+     * @param ContainerBuilder $builder
+     * @return void
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        // $builder->setParameter('survos_workflow.direction', $config['direction']);
-
-        // twig classes
-//        <services>
-//        <service class="Vich\UploaderBundle\DataCollector\MappingCollector" id="Vich\UploaderBundle\DataCollector\MappingCollector" public="false">
-//            <argument type="service" id="vich_uploader.metadata_reader" />
-//            <tag name="data_collector" template="@VichUploader/Collector/mapping_collector.html.twig"
-// id="vich_uploader.mapping_collector" />
-//        </service>
-//    </services>
-
         $builder->autowire(SeoService::class)
             ->setArgument('$config', $config)
             ;
