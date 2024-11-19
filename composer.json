@@ -1,10 +1,9 @@
 {
     "name": "survos/seo-bundle",
     "type": "symfony-bundle",
-    "description": "Adds some metadata information to the debug toolbar",
+    "description": "checks for title and description length in the debug toolbar",
     "keywords": [
-        "symfony-ux",
-        "symfony6"
+        "symfony",
     ],
     "license": "MIT",
     "require": {
