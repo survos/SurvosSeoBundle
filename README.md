@@ -28,7 +28,7 @@ survos_seo:
 ```bash
 composer config repositories.survos_seo '{"type": "path", "url": "/home/tac/g/sites/survos/packages/seo-bundle"}' 
 composer config allow-plugins.survos/installer true
-composer require survos/seo:*@dev
+composer require survos/seo-bundle:*@dev
 
 ```
 

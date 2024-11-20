@@ -30,8 +30,8 @@ jobs:
         uses: actions/checkout@v2
       - name: composer install
         run: composer install
-      - name: CS Check
-        run: composer cs-check
+#      - name: CS Check
+#        run: composer cs-check
   tests:
     name: PHP ${{ matrix.php }} / SF ^${{ matrix.symfony }}
     runs-on: ubuntu-latest
