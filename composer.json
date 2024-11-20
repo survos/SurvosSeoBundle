@@ -22,7 +22,7 @@
         }
     },
     "scripts": {
-        "phpstan": "phpstan analyse src tests",
+        "phpstan": "phpstan",
         "phpunit-base": "phpunit tests/",
         "phpunit": "@phpunit-base --testdox",
         "phpunit-coverage-text": "@phpunit-base --coverage-text --colors=never",
@@ -36,7 +36,7 @@
         "symfony/phpunit-bridge": "^6.4 || ^7.0",
         "symfony/twig-bundle": "^6.4 || ^7.0",
         "symfony/var-dumper": "^6.4 || ^7.0",
-        "rector/rector": "^1.2",
+        "rector/rector": "^1.2.10",
         "friendsofphp/php-cs-fixer": "^3.64",
         "phpunit/phpunit": "^11.4"
     },
