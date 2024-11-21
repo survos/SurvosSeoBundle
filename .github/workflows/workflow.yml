@@ -1,4 +1,4 @@
-name: flysystem-bundle
+name: seo-bundle
 
 on:
   [push, pull_request]
@@ -26,14 +26,13 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '8.2'
           - '8.3'
           - '8.4'
         symfony-version:
           - '6.4.*'
           - '7.1.*'
         include:
-          - php-version: '8.2'
+          - php-version: '8.3'
             symfony-version: '6.4.*'
           - php-version: '8.3'
             symfony-version: '7.1.*'
