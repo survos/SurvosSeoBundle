@@ -27,7 +27,7 @@ final class SeoCollector extends DataCollector
     {
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, \Throwable|null $exception = null): void
     {
         $crawler = new Crawler((string) $response->getContent());
 
