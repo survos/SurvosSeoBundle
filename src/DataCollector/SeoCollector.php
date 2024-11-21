@@ -41,8 +41,15 @@ final class SeoCollector extends DataCollector
                 'size' => (string) $titleSize,
                 'status' => $this->getTitleClass($titleSize),
             ];
-            $this->data['title'] = $titleInfo;
+        } else {
+            $titleInfo = [
+                'value' => null,
+                'size' => 0,
+                'status' => $this->getTitleClass(0),
+            ];
+
         }
+        $this->data['title'] = $titleInfo;
 
         // Description —————————————————————————————————————————————————————————
         $meta = $crawler->filterXPath('//meta[@name="description"]');

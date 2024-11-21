@@ -10,20 +10,29 @@ namespace Survos\SeoBundle\Service;
  */
 final class SeoService
 {
+    const DEFAULT_MIN_TITLE=3;
+    const DEFAULT_MAX_TITLE=10;
 
+    const DEFAULT_MIN_DESCRIPTION=13;
+    const DEFAULT_MAX_DESCRIPTION=100;
 
     /**
      * @param array<string, int|string|null> $config
      */
     public function __construct(
-        private array $config=[]
+        private array $config=[
+        ]
     )
     {
     }
 
     public function getConfigValue(string $key): int|string|null
     {
-        return $this->config[$key]; // @todo: error checking
+        if (array_key_exists($key, $this->config)) {
+            return $this->config[$key];
+        } else {
+            throw new \RuntimeException("Config key '$key' not found");
+        }
     }
 
     /**
