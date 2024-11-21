@@ -1,58 +1,60 @@
-name: seo-bundle-CI
+name: flysystem-bundle
+
 on:
   [push, pull_request]
+
 jobs:
-  phpstan:
-    runs-on: ubuntu-latest
-    name: PHPStan
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: composer install
-        run: composer install
-      - name: PHPStan
-        run: composer phpstan
-        env:
-          REQUIRE_DEV: true
-#  cs-fixer:
+#  coding-style:
 #    runs-on: ubuntu-latest
-#    name: PHP-CS-Fixer
 #    steps:
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
+#      - uses: actions/checkout@v4
+#      - uses: shivammathur/setup-php@v2
 #        with:
-#          php-version: 8.2
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: composer install
-#        run: composer install
-##      - name: CS Check
-##        run: composer cs-check
-  tests:
-    name: PHP ${{ matrix.php }} / SF ^${{ matrix.symfony }}
+#          php-version: '8.2'
+#          coverage: none
+#      - name: php-cs-fixer
+#        run: |
+#          wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.13.2/php-cs-fixer.phar -q
+#          php php-cs-fixer.phar fix --dry-run --diff
+
+  phpunit:
+    name: PHPUnit (PHP ${{ matrix.php-version }} - Symfony ${{ matrix.symfony-version }})
     runs-on: ubuntu-latest
+    env:
+      SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
+
     strategy:
       matrix:
-        php: ['8.2']
-        symfony: ['6.4.*', '7.1.*']
+        php-version:
+          - '8.2'
+          - '8.3'
+          - '8.4'
+        symfony-version:
+          - '6.4.*'
+          - '7.1.*'
+        include:
+          - php-version: '8.2'
+            symfony-version: '6.4.*'
+          - php-version: '8.3'
+            symfony-version: '7.1.*'
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
-#      - name: Setup MySQL
-#        run: |
-#          sudo systemctl enable mysql.service
-#          sudo systemctl start mysql.service
-#          mysql -uroot -proot -h localhost -e "CREATE DATABASE test CHARACTER SET utf8 COLLATE utf8_general_ci;"
-      - name: Setup PHP
+
+      - name: Install PHP with pcov
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-      - run: |
-          sed -ri 's/"symfony\/(.+)": "(.+)"/"symfony\/\1": "${{ matrix.symfony }}"/' composer.json;
-      - run: composer update --no-interaction --no-progress --ansi
-        # @todo: create some tests!
-#      - run: composer phpunit
+          coverage: none
+          php-version: ${{ matrix.php-version }}
+
+      - name: Install Symfony Flex
+        run: |
+          composer config --global --no-plugins allow-plugins.symfony/flex true
+          composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+
+      - name: Run PHPStan
+        run: composer phpstan
