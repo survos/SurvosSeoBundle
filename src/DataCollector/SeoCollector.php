@@ -23,7 +23,7 @@ final class SeoCollector extends DataCollector
     private const CLASS_WARNING = 'yellow';
     private const CLASS_OK = 'green';
 
-    public function __construct(private SeoService $seoService)
+    public function __construct(private readonly SeoService $seoService)
     {
     }
 

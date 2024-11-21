@@ -19,7 +19,7 @@ final class SeoExtension extends AbstractExtension
 {
 
     public function __construct(
-        private SeoService $seoService,
+        private readonly SeoService $seoService,
     )
     {
 
