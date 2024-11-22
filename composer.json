@@ -22,7 +22,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Survos\\SeoBundle\\tests\\": "Tests/"
+            "Survos\\SeoBundle\\Tests\\": "tests/"
         }
     },
     "scripts": {
