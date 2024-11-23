@@ -2,19 +2,20 @@
 
 namespace Survos\SeoBundle\Tests;
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Survos\SeoBundle\SurvosSeoBundle;
 
-class TestKernel extends Kernel
+class TestKernel extends BaseKernel
 {
     public function registerBundles(): iterable
     {
         return [
-            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new TwigBundle(),
-//            new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new \Survos\SeoBundle\SurvosSeoBundle(),
+            new FrameworkBundle(),
+            new SurvosSeoBundle(),
         ];
     }
 
@@ -23,7 +24,7 @@ class TestKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(__DIR__.'/config/survos_pixie.yaml');
+        $loader->load(__DIR__.'/config.yml');
     }
 
     public function getProjectDir(): string

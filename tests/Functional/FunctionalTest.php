@@ -1,13 +1,9 @@
 <?php
 
 namespace Survos\SeoBundle\Tests\Functional;
-
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Survos\SeoBundle\Service\SeoService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Filesystem\Filesystem;
 
 class FunctionalTest extends KernelTestCase
 {
@@ -16,6 +12,7 @@ class FunctionalTest extends KernelTestCase
 
     public function testSomething(): void
     {
+        $this->assertNull(null);
         // 1 and 2 are from symfony docs: https://symfony.com/doc/current/testing.html
 
         // (1) boot the Symfony kernel
@@ -26,8 +23,25 @@ class FunctionalTest extends KernelTestCase
 
         /** @var SeoService $seoService */
         $seoService = $this->container->get(SeoService::class);
-        dd($seoService->getConfig());
 
+
+        $config = $seoService->getConfig();
+        // check that the config comes from being loaded in config.yml, not the defaults
+        $this->assertEquals($config['maxTitleLength'], 100);
+
+        $this->assertNotNull($seoService);
+    }
+
+    // to get rid of "Test code or tested code did not remove its own exception handlers"
+    //https://marceichenseher.de/de/hintergrund/php-symfony-und-phpunit-test-code-or-tested-code-did-not-remove-its-own-exception-handlers-aufloesen/
+    protected static function ensureKernelShutdown(): void
+    {
+        $wasBooted = static::$booted;
+        parent::ensureKernelShutdown();
+
+        if ($wasBooted) {
+            restore_exception_handler();
+        }
     }
 
 }
