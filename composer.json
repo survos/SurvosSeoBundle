@@ -9,18 +9,17 @@
     ],
     "require": {
         "php": "^8.2",
-        "ext-pcov": "*",
         "symfony/config": "^6.4 || ^7.0",
         "symfony/dependency-injection": "^6.4 || ^7.0",
         "symfony/http-kernel": "^6.4 || ^7.0",
-        "symfony/string": "^6.4 || 7.1",
+        "symfony/string": "^6.4 || ^7.1",
         "twig/twig": "^3.4"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.64",
-        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^11.4",
-        "rector/rector": "^1.2.10",
+        "rector/rector": "dev-main",
         "symfony/browser-kit": "^6.4 || ^7.0",
         "symfony/css-selector": "^7.1",
         "symfony/framework-bundle": "^6.4 || ^7.0",
