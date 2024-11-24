@@ -46,6 +46,9 @@ final class SeoService
             (int)$this->getConfigValue('max' . $key . 'Length')];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function getConfig(): array
     {
         return $this->config;
