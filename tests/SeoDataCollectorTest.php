@@ -12,7 +12,7 @@ class SeoDataCollectorTest extends TestCase
     {
         $response = new \Symfony\Component\HttpFoundation\Response();
         $html = file_get_contents(__DIR__ . '/Fixtures/sandesa.html');
-        $response->setContent($html);
+        $response->setContent($html?:null);
         $config = [
             'minTitleLength' => SeoService::DEFAULT_MIN_TITLE,
             'maxTitleLength' => SeoService::DEFAULT_MAX_TITLE,
@@ -38,7 +38,7 @@ class SeoDataCollectorTest extends TestCase
         assertEquals($descriptionInfo['status'], 'green');
 
 
-        $html = file_get_contents(__DIR__ . '/Fixtures/no-title.html');
+        $html = file_get_contents(__DIR__ . '/Fixtures/no-title.html')?:null;
         $response->setContent($html);
         $dataCollector->reset();
         assertEquals($dataCollector->getName(), \Survos\SeoBundle\DataCollector\SeoCollector::class);
